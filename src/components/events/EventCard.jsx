@@ -4,15 +4,15 @@ const EventCard = ({ event }) => {
   const navigate = useNavigate();
 
   return (
-    <div 
+    <div
       className="rounded-lg p-4 shadow-md text-[#494949] cursor-pointer"
       onClick={() => navigate(`/event/${event.id}`)}
     >
       {/* Clickable Image */}
-      <img 
-        src={event.image} 
-        alt={event.title} 
-        className="w-full h-40 object-cover rounded" 
+      <img
+        src={event.image}
+        alt={event.title}
+        className="w-full h-40 object-cover rounded"
       />
 
       <h3 className="text-[23px] font-bold mt-4">{event.title}</h3>
@@ -22,7 +22,7 @@ const EventCard = ({ event }) => {
 
       <div className="flex justify-between w-full items-center mt-4">
         {/* Get Ticket Button */}
-        <button 
+        <button
           className="mt-2 bg-[#55BFEA] text-white px-4 py-2 rounded font-[500]"
           onClick={(e) => {
             e.stopPropagation(); // Prevents triggering card click event
@@ -31,7 +31,10 @@ const EventCard = ({ event }) => {
         >
           Get Ticket
         </button>
-        <p className="text-[23px] font-[700]">{event.price}</p>
+        <p className="text-[23px] font-[700]">
+          {event.price === "Free" ? "Free" : `₦${event.price}`}
+        </p>
+
       </div>
     </div>
   );

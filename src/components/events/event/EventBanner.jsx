@@ -1,6 +1,6 @@
 const EventBanner = ({ image }) => {
     return (
-      <div className="w-full h-60 md:h-80">
+      <div className="w-full h-60 md:h-100">
         <img src={image} alt="Event Banner" className="w-full h-full object-cover" />
       </div>
     );
