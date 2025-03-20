@@ -13,36 +13,25 @@ const Navbar = ({ currentUser, setCurrentUser }) => {
     const toggleMenu = () => setMenuOpen(!menuOpen);
 
     useEffect(() => {
-        // Retrieve user from localStorage on page load
         const storedUser = JSON.parse(localStorage.getItem("currentUser"));
         setCurrentUser(storedUser);
     }, []);
 
-    // Handle Logout
-    const handleLogout = () => {
-        localStorage.removeItem("currentUser");
-        setCurrentUser(null);
-        navigate("/signin");
-    };
-
-    // Redirect if user is not signed in
     const handleProtectedNavigation = (path) => {
         if (!currentUser) {
-            navigate("/signin"); // Redirect to sign-in
+            navigate("/signin");
         } else {
-            navigate(path); // Navigate to target page
+            navigate(path);
         }
     };
 
     return (
         <nav className="fixed top-0 left-0 w-full bg-white text-[#494949] font-[500] py-4 px-4 lg:px-30 shadow-md z-50">
             <div className="container mx-auto flex justify-between items-center">
-                {/* Logo - Redirect based on auth status */}
                 <button onClick={() => handleProtectedNavigation("/home")}>
                     <img src={logo} alt="logo" className="w-[50px]" />
                 </button>
 
-                {/* Desktop Menu */}
                 <ul className="hidden md:flex space-x-6">
                     <li>
                         <button onClick={() => handleProtectedNavigation("/events")} className="hover:text-[#55BFEA]">
@@ -55,17 +44,14 @@ const Navbar = ({ currentUser, setCurrentUser }) => {
                         </button>
                     </li>
 
-                    {/* Profile or Sign In Button */}
                     {currentUser ? (
                         <li className="flex items-center gap-4">
                             <img
                                 src={currentUser.profilePic || "https://i.pravatar.cc/40"}
                                 alt="Profile"
                                 className="w-10 h-10 rounded-full cursor-pointer"
+                                onClick={() => navigate("/dashboard")}
                             />
-                            <button onClick={handleLogout} className="text-red-500 hover:text-red-700">
-                                Logout
-                            </button>
                         </li>
                     ) : (
                         <li>
@@ -76,13 +62,17 @@ const Navbar = ({ currentUser, setCurrentUser }) => {
                     )}
                 </ul>
 
-                {/* Mobile Menu Button */}
+                {/* Mobile Menu */}
                 <div className="flex items-center gap-3 md:hidden">
                     {currentUser && (
                         <img
                             src={currentUser.profilePic || "https://i.pravatar.cc/40"}
                             alt="Profile"
-                            className="w-10 h-10 rounded-full"
+                            className="w-10 h-10 rounded-full cursor-pointer"
+                            onClick={() => {
+                                navigate("/dashboard");
+                                setMenuOpen(false);
+                            }}
                         />
                     )}
                     <button onClick={toggleMenu} className="text-[#494949] text-2xl">
@@ -90,12 +80,10 @@ const Navbar = ({ currentUser, setCurrentUser }) => {
                     </button>
                 </div>
 
-                {/* Mobile Menu */}
                 <div
                     ref={menuRef}
-                    className={`fixed top-0 right-0 w-2/4 h-full bg-white text-[#494949] p-5 transform ${
-                        menuOpen ? "translate-x-0" : "translate-x-full"
-                    } transition-transform duration-300 ease-in-out md:hidden shadow-lg z-50`}
+                    className={`fixed top-0 right-0 w-2/4 h-full bg-white text-[#494949] p-5 transform ${menuOpen ? "translate-x-0" : "translate-x-full"
+                        } transition-transform duration-300 ease-in-out md:hidden shadow-lg z-50`}
                 >
                     <button onClick={toggleMenu} className="absolute top-5 right-5 text-2xl">
                         <FaTimes />
@@ -114,14 +102,7 @@ const Navbar = ({ currentUser, setCurrentUser }) => {
                             </button>
                         </li>
 
-                        {/* Mobile Profile or Sign In Button */}
-                        {currentUser ? (
-                            <li className="flex flex-col items-center gap-2">
-                                <button onClick={handleLogout} className="text-red-500 hover:text-red-700">
-                                    Logout
-                                </button>
-                            </li>
-                        ) : (
+                        {!currentUser && (
                             <li>
                                 <Link to="/signin" className="border border-[#55BFEA] text-[#55BFEA] px-6 py-2 rounded-[5px] hover:bg-[#55BFEA] hover:text-white">
                                     Sign In

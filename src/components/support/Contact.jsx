@@ -43,7 +43,7 @@ const Contact = () => {
     };
 
     return (
-        <div className="text-[#494949]">
+        <div className="text-[#494949] mt-30">
 
             {/* Contact Form Section */}
             <div className="max-w-3xl mx-auto p-6 mt-8 bg-white rounded shadow-lg">
